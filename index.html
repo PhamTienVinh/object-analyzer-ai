@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VisionCount AI</title>
+    <script>
+      // Fix for "Uncaught TypeError: Cannot set property fetch of #<Window> which has only a getter"
+      // This happens when some libraries try to polyfill fetch in an environment where it's read-only.
+      (function() {
+        // Polyfill global for libraries that expect it
+        if (typeof global === 'undefined') {
+          window.global = window;
+        }
+        
+        try {
+          const originalFetch = window.fetch;
+          if (originalFetch) {
+            Object.defineProperty(window, 'fetch', {
+              configurable: true,
+              enumerable: true,
+              get: function() { return originalFetch; },
+              set: function() { console.warn('Prevented attempt to overwrite window.fetch'); }
+            });
+          }
+        } catch (e) {
+          // If we can't redefine it, it's likely already protected or the environment is very restrictive.
+          console.warn('Could not redefine window.fetch, but continuing...');
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+

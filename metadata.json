@@ -1,0 +1,5 @@
+{
+  "name": "VisionCount AI",
+  "description": "AI-powered object detection and counting with visual bounding boxes. Supports image upload and copy-paste.",
+  "requestFramePermissions": []
+}
